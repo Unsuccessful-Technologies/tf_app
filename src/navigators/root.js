@@ -2,17 +2,15 @@ import React from 'react';
 import { NavigationContainer } from "@react-navigation/native";
 import Authentication from "./Authentication";
 import Home from "./Home";
-
-const state = {
-    userToken: null
-}
+import { useSelector } from "react-redux";
 
 const Root = () => {
+    const user = useSelector(state => state.user)
 
     return (
         <NavigationContainer>
             {
-                state.userToken == null ? (
+                user.token == null ? (
                     <Authentication/>
                 ) : (
                     <Home/>

@@ -4,17 +4,17 @@ import {Center, Colors, Space_A, Space_B} from "../../utils/styles";
 import TFButton from "../../utils/TFButton";
 
 
-const Login = props => {
-
+const CreateAccount = props => {
+    const { navigation } = props
     return (
         <View style={styles.screen}>
             <View style={styles.title_container}>
                 <View style={styles.section_container}></View>
                 <Image source={require('../../../assets/icon.png')} style={styles.logo} resizeMode={'contain'} />
-                <Text style={styles.title}>Tooth Fairy App</Text>
+                <Text style={styles.title}>Create Account</Text>
             </View>
             <View style={styles.section_container}>
-                <TFButton style={{width:"70%", marginBottom: 16}}>Sign In</TFButton>
+                <TFButton style={{width:"70%", marginBottom: 16}} onPress={() => navigation.navigate('AuthRoot')}>Sign In</TFButton>
                 <TFButton style={{width:"70%"}} myType={"second"}>Create Account</TFButton>
             </View>
             <View style={{...styles.section_container, marginBottom: 32}}>
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Login;
+export default CreateAccount;
