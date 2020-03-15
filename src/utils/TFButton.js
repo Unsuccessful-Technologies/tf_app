@@ -19,7 +19,7 @@ const TFButton = props => {
     }
 
     return (
-        <TouchableOpacity onPress={onPress} style={{...style}}>
+        <TouchableOpacity onPress={onPress} style={{...styles.container,...style}}>
             <View style={{...styles.button, ...btnColor}}>
                 <Text style={styles.buttonText}>{children}</Text>
             </View>

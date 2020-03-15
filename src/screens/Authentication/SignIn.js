@@ -1,57 +1,95 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image, Button, TouchableOpacity } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 import {Center, Colors, Space_A, Space_B} from "../../utils/styles";
-import TFButton from "../../utils/TFButton";
 import TFForm from "../../utils/TFInput";
+import { useSelector, useDispatch } from "react-redux";
+import Loading from "../common/Loading";
+import {LoginUser} from "../../store/actions/user";
+import {loginCancel} from "../../store/actionTypes";
 
+const SignInForm = {
+    "user": {
+        title: "User ID / Phone / Email",
+        value: ''
+    },
+    "password": {
+        title: "Password",
+        value: ''
+    }
+}
 
 const SignIn = props => {
     const { navigation } = props
+    const UserState = useSelector(state => state.user)
+    const dispatch = useDispatch();
 
-    const SignInForm = {
-        "User Id": {
-            value: ''
-        },
-        "Password": {
-            value: ''
-        }
+    const handleSubmit = (form) => {
+        const body = { user: form.user.value, password: form.password.value }
+        dispatch(LoginUser(body))
     }
+
+    const handleCancel = () => {
+        dispatch(loginCancel())
+        navigation.navigate('AuthRoot')
+    }
+
+    console.log(UserState)
+
+    if(UserState.loading) return <Loading/>
 
     return (
         <View style={styles.screen}>
             <View style={styles.title_container}>
-                <View style={styles.section_container}></View>
-                <Image source={require('../../../assets/icon.png')} style={styles.logo} resizeMode={'contain'} />
-                <Text style={styles.title}>Sign In</Text>
+                <Text style={styles.title}>Login</Text>
             </View>
-            <TFForm inputs={SignInForm} style={styles.section_container}/>
+            <View style={styles.section_container}>
+                <TFForm
+                    inputs={SignInForm}
+                    style={{backgroundColor:Colors.background}}
+                    InputsStyle={{justifyContent: "flex-start", paddingTop: 20}}
+                    TitleStyle={{textTransform: "uppercase"}}
+                    TextStyle={{borderColor:Colors.btn_prime}}
+                    submit={handleSubmit}
+                    cancel={handleCancel}
+                />
+            </View>
+            <View style={{...styles.section_container, backgroundColor: Colors.btn_prime, justifyContent: "flex-start", alignItems: "center"}}>
+                {
+                    (UserState.error) ? (
+                        <Text style={{fontWeight: "bold",color: "red"}}>{ (UserState.error.message) ? UserState.error.message : "Unknown Error" }</Text>
+                    ) : null
+                }
+            </View>
         </View>
     )
 };
 
 const styles = StyleSheet.create({
     screen: {
-        ...Space_A,
+        ...Center,
         backgroundColor: Colors.background
     },
     title_container: {
-        flex: 1,
-        justifyContent: "flex-end",
-        alignItems: "center",
-        width: "100%",
+        ...Center,
+        backgroundColor: Colors.btn_prime,
+        width: "100%"
     },
     section_container:{
-        ...Center,
+        flex: 1,
         justifyContent: "flex-start",
+        alignContent: "center",
         width: "100%",
+        paddingVertical: 20
     },
     logo: {
         flex: 3,
     },
     title: {
-        flex: 1,
-        fontSize: 24,
+        fontSize: 48,
         fontWeight: "bold",
+        letterSpacing: 4,
+        color: "#fff",
+        textTransform: "uppercase"
     }
 });
 
