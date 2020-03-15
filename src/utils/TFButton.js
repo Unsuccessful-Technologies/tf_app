@@ -38,7 +38,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         borderWidth: 4,
         borderRadius: 8,
-        alignItems: "center"
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        height: "100%"
     },
     buttonText: {
         color: Colors.background,

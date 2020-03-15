@@ -6,59 +6,66 @@ import { useSelector, useDispatch } from "react-redux";
 import Loading from "../common/Loading";
 import {LoginUser} from "../../store/actions/user";
 import {loginCancel} from "../../store/actionTypes";
+import Logger from "../../utils/Logger";
 
-const SignInForm = {
-    "user": {
-        title: "User ID / Phone / Email",
+const ParentForm = {
+    "fName": {
+        title: "First Name",
         value: ''
     },
-    "password": {
-        title: "Password",
+    "lName": {
+        title: "Last Name",
         value: ''
-    }
+    },
+    "phone": {
+        title: "Phone Number",
+        value: ''
+    },
+    "email": {
+        title: "Email",
+        value: ''
+    },
+    // "isPrimary": {
+    //     title: "Primary Contact",
+    //     value: ["Yes","No"]
+    // }
 }
 
-const SignIn = props => {
+const ParentInfo = props => {
     const { navigation } = props
-    const UserState = useSelector(state => state.user)
     const dispatch = useDispatch();
 
     const handleSubmit = (form) => {
-        const body = { user: form.user.value, password: form.password.value }
-        dispatch(LoginUser(body))
+        const body = {
+            "fName": '',
+            "lName": '',
+            "phone": '',
+            "email": '',
+        }
+        Object.keys(body).forEach(key => {
+            body[key] = form[key].value
+        })
+        Logger('ParentInfo.js handleSubmit', body)
     }
 
     const handleCancel = () => {
-        dispatch(loginCancel())
-        navigation.navigate('AuthRoot')
+        navigation.goBack()
     }
-
-    console.log(UserState)
-
-    if(UserState.loading) return <Loading/>
 
     return (
         <View style={styles.screen}>
-            <View style={styles.title_container}>
-                <Text style={styles.title}>Login</Text>
-            </View>
             <View style={styles.section_container}>
                 <TFForm
-                    inputs={SignInForm}
+                    inputs={ParentForm}
                     style={{backgroundColor:Colors.background}}
                     InputsStyle={{justifyContent: "flex-start", paddingTop: 20}}
                     TitleStyle={{textTransform: "uppercase"}}
                     TextStyle={{borderColor:Colors.btn_prime}}
+                    BtnContainerStyle={{flexDirection:"column", paddingVertical: 40}}
+                    BtnStyle={{flex: 1, paddingVertical: 10}}
                     submit={handleSubmit}
                     cancel={handleCancel}
                 />
-            </View>
-            <View style={{...styles.section_container, backgroundColor: Colors.btn_prime, justifyContent: "flex-start", alignItems: "center"}}>
-                {
-                    (UserState.error) ? (
-                        <Text style={{fontWeight: "bold",color: "red"}}>{ (UserState.error.message) ? UserState.error.message : "Unknown Error" }</Text>
-                    ) : null
-                }
             </View>
         </View>
     )
@@ -93,4 +100,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SignIn;
+export default ParentInfo;

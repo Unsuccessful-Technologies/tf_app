@@ -5,7 +5,8 @@ import Logger from "../../utils/Logger";
 const initialState = {
     loading: false,
     error: null,
-    token: null
+    token: null,
+    parents: []
 }
 
 const userReducer = (state = initialState, action) => {

@@ -3,7 +3,6 @@ import Authentication_screens from "../screens/Authentication";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator()
-const state = {}
 
 const Authentication = () => {
 

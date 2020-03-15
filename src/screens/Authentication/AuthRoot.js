@@ -9,36 +9,39 @@ const AuthRoot = props => {
     return (
         <View style={styles.screen}>
             <View style={styles.title_container}>
-                <View style={styles.section_container}></View>
+                <View style={{...Center}}></View>
                 <Image source={require('../../../assets/icon.png')} style={styles.logo} resizeMode={'contain'} />
                 <Text style={styles.title}>Tooth Fairy App</Text>
             </View>
-            <View style={styles.section_container}>
-                <TFButton style={{width:"70%", marginBottom: 16}} onPress={() => navigation.navigate('SignIn')}>Sign In</TFButton>
-                <TFButton style={{width:"70%"}} myType={"second"} onPress={() => navigation.navigate('CreateAccount')}>Create Account</TFButton>
+            <View style={{...styles.section_container}}>
+                <TFButton style={{width:"50%", flex: 1, paddingVertical: 5}} onPress={() => navigation.navigate('SignIn')}>Sign In</TFButton>
+                <TFButton style={{width:"50%", flex: 1, paddingVertical: 5}} myType={"second"} onPress={() => navigation.navigate('CreateAccount')}>Create Account</TFButton>
             </View>
-            <View style={{...styles.section_container, marginBottom: 32}}>
-                <TFButton style={{width:"90%", marginBottom: 16}}>Share With Family</TFButton>
-                <TFButton style={{width:"90%"}} myType={"second"}>Share With Friends</TFButton>
+            <View style={{...styles.section_container}}>
+                <TFButton style={{width:"70%", flex: 1, paddingVertical: 5}}>Share With Family</TFButton>
+                <TFButton style={{width:"70%", flex: 1, paddingVertical: 5}} myType={"second"}>Share With Friends</TFButton>
             </View>
+            <View style={{...Center}}></View>
         </View>
     )
 };
 
 const styles = StyleSheet.create({
     screen: {
-        ...Space_A,
+        ...Center,
         backgroundColor: Colors.background
     },
     title_container: {
-        flex: 2,
+        flex: 3,
         justifyContent: "flex-end",
         alignItems: "center",
         width: "100%",
     },
     section_container:{
+        flex: 1,
         ...Center,
         width: "100%",
+        paddingVertical: 10
     },
     logo: {
         flex: 3,

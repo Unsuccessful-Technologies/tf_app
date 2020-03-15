@@ -13,7 +13,7 @@ const formReducer = (state, action) => {
 }
 
 const TFForm = props => {
-    const { submit, cancel, inputs, style, InputsStyle, InputStyle, TitleStyle, TextStyle } = props
+    const { submit, cancel, inputs, style, InputsStyle, InputStyle, TitleStyle, TextStyle, BtnContainerStyle, BtnStyle } = props
     const values = {}
     const validities = {}
 
@@ -35,7 +35,7 @@ const TFForm = props => {
     }
 
     return (
-        <View style={{...Center,...style}}>
+        <View style={{...styles.container,...style}}>
             <View style={{...styles.inputs_container, ...InputsStyle}}>
                 {
                     Object.entries(formState.values).map(entry => {
@@ -53,9 +53,9 @@ const TFForm = props => {
                     })
                 }
             </View>
-            <View style={styles.buttons_container}>
-                <TFButton onPress={() => submit(formState.values)}>Submit</TFButton>
-                <TFButton onPress={cancel} myType={'second'}>Cancel</TFButton>
+            <View style={{...styles.buttons_container,...BtnContainerStyle}}>
+                <TFButton onPress={() => submit(formState.values)} style={{...styles.button, ...BtnStyle}}>Submit</TFButton>
+                <TFButton onPress={cancel} myType={'second'} style={{...styles.button, ...BtnStyle}}>Cancel</TFButton>
             </View>
         </View>
 
@@ -63,22 +63,26 @@ const TFForm = props => {
 }
 
 const styles = StyleSheet.create({
-    container:{},
+    container:{
+        ...Center,
+        flex: 1
+    },
     inputs_container:{
-        flex: 1,
+        flex: 3,
         width: "100%",
         justifyContent: "space-around"
     },
     input_container: {
         margin: 10,
-        width: "100%",
+        flex: 1,
         justifyContent: "flex-start",
         alignItems: "center",
     },
     buttons_container:{
         flexDirection: "row",
+        width: "100%",
         justifyContent: "space-around",
-        width: "100%"
+        flex: 1
     },
     input_title: {
         width: "100%",
@@ -95,6 +99,10 @@ const styles = StyleSheet.create({
         margin: 10,
         padding: 10,
         paddingLeft: 25
+    },
+    button: {
+        flex: 1,
+        paddingHorizontal: 20
     }
 })
 

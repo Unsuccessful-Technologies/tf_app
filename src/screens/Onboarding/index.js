@@ -1,7 +1,7 @@
-import Login from "../Authentication/Login";
+import ParentInfo from "./ParentInfo";
 
 const Onboarding_screens = {
-    Login
+    ParentInfo
 }
 
 export default Onboarding_screens
