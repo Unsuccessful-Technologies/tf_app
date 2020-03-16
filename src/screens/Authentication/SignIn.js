@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Center, Colors} from "../../utils/styles";
-import TFForm from "../../utils/TFInput";
+import TFForm from "../../utils/TFForm";
 import { useSelector, useDispatch } from "react-redux";
 import Loading from "../common/Loading";
 import {LoginUser} from "../../store/actions/user";
@@ -46,11 +46,11 @@ const SignIn = props => {
                 <TFForm
                     inputs={SignInForm}
                     style={{backgroundColor:Colors.background}}
-                    InputsStyle={{justifyContent: "flex-start", paddingTop: 20}}
+                    InputsStyle={{justifyContent: "flex-start"}}
                     TitleStyle={{textTransform: "uppercase"}}
                     TextStyle={{borderColor:Colors.btn_prime}}
-                    submit={handleSubmit}
-                    cancel={handleCancel}
+                    btn1={{handler: handleSubmit, title: "Submit"}}
+                    btn2={{handler: handleCancel, title: "Cancel"}}
                 />
             </View>
             <View style={{...styles.section_container, backgroundColor: Colors.btn_prime, justifyContent: "flex-start", alignItems: "center"}}>

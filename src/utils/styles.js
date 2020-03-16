@@ -2,6 +2,7 @@ export const Center = {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    width: "100%"
 }
 
 export const Space_A = {

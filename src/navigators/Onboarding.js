@@ -8,7 +8,7 @@ const Onboarding = () => {
 
     return (
         <Stack.Navigator>
-            <Stack.Screen name={"OnBoardRoot"} component={Onboarding_screens.ParentInfo} options={{title:"Parent Information"}} />
+            <Stack.Screen name={"ParentInfo"} component={Onboarding_screens.ParentInfo} initialParams={{index: 0}} options={{title:"Parent Information"}} />
         </Stack.Navigator>
     )
 }

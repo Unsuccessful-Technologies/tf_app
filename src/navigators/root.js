@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { NavigationContainer } from "@react-navigation/native";
 import Authentication from "./Authentication";
 import Home from "./Home";
@@ -7,14 +7,15 @@ import Onboarding from "./Onboarding";
 
 const Root = () => {
     const user = useSelector(state => state.user)
+    const { token, isNewUser } = user
 
     return (
         <NavigationContainer>
             {
-                user.token == null ? (
+                token == null ? (
                     <Authentication/>
                 ) : (
-                    (user.parents.length > 0) ? <Home/> : <Onboarding/>
+                    (isNewUser == null) ? <Onboarding/> : <Home/>
                 )
             }
         </NavigationContainer>

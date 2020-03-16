@@ -1,5 +1,5 @@
 import {loginFail, loginStart, loginSuccess} from "../actionTypes";
-import {Login_URL} from "../../utils/API";
+import {Login_URL, NewUser_URL} from "../../utils/API";
 import Logger from "../../utils/Logger";
 
 export const LoginUser = payload => {
@@ -22,12 +22,13 @@ export const LoginUser = payload => {
         try {
             const response = await fetch(Login_URL, options)
             const resData = await response.json()
-
-            Logger("LOGIN_RESPONSE", resData)
             if(resData.error){
                 throw resData.error
             } else {
-                dispatch(loginSuccess(resData))
+                const { idToken, localId } = resData
+                const newUserResponse = await fetch(NewUser_URL(idToken, localId))
+                const newUserResData = await newUserResponse.json()
+                dispatch(loginSuccess({...resData, isNewUser: newUserResData}))
             }
         } catch(e) {
             dispatch(loginFail(e))

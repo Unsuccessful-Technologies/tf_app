@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Center, Colors} from "../../utils/styles";
-import TFForm from "../../utils/TFInput";
+import TFForm from "../../utils/TFForm";
 import { useSelector, useDispatch } from "react-redux";
 import Loading from "../common/Loading";
 import {LoginUser} from "../../store/actions/user";
-import {loginCancel} from "../../store/actionTypes";
+import {addParent, loginCancel} from "../../store/actionTypes";
 import Logger from "../../utils/Logger";
 
 const ParentForm = {
@@ -32,24 +32,34 @@ const ParentForm = {
 }
 
 const ParentInfo = props => {
-    const { navigation } = props
+    const { navigation, route } = props
+    const { index } = route.params
+    const parents = useSelector(state => state.user.parents)
     const dispatch = useDispatch();
 
-    const handleSubmit = (form) => {
-        const body = {
-            "fName": '',
-            "lName": '',
-            "phone": '',
-            "email": '',
-        }
-        Object.keys(body).forEach(key => {
+    if(parents[index]){
+        Object.keys(ParentForm).forEach(key => {
+            ParentForm[key].value = parents[index][key]
+        })
+    }
+
+    const handleAddFairy = (form) => {
+        const body = {}
+        Object.keys(ParentForm).forEach(key => {
             body[key] = form[key].value
         })
         Logger('ParentInfo.js handleSubmit', body)
+        navigation.goBack()
     }
 
-    const handleCancel = () => {
-        navigation.goBack()
+    const handleAddParent = (form) => {
+        //TODO ADD LOGIC TO HANDLE UPDATE/EDIT
+        const body = {}
+        Object.keys(ParentForm).forEach(key => {
+            body[key] = form[key].value
+        })
+        dispatch(addParent(body))
+        navigation.push('ParentInfo', {index: index + 1})
     }
 
     return (
@@ -63,8 +73,8 @@ const ParentInfo = props => {
                     TextStyle={{borderColor:Colors.btn_prime}}
                     BtnContainerStyle={{flexDirection:"column", paddingVertical: 40}}
                     BtnStyle={{flex: 1, paddingVertical: 10}}
-                    submit={handleSubmit}
-                    cancel={handleCancel}
+                    btn1={{handler: handleAddFairy, title: "Add Tooth Fairy"}}
+                    btn2={{handler: handleAddParent, title: "Add Another Parent"}}
                 />
             </View>
         </View>
