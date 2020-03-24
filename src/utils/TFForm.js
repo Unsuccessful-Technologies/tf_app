@@ -2,6 +2,7 @@ import React, { useReducer }from 'react';
 import {View, TextInput, StyleSheet, Text, KeyboardAvoidingView, ScrollView} from "react-native";
 import {Center} from "./styles";
 import TFButton from "./TFButton";
+import Logger from "./Logger";
 
 const formReducer = (state, action) => {
     const { key, value } = action
@@ -37,6 +38,11 @@ const TFForm = props => {
         dispatch({key, value})
     }
 
+    const Handler = (HandleFunction) => {
+        Logger('TFForm.js:Handler', formState.values)
+        HandleFunction(formState.values)
+    }
+
     return (
         <KeyboardAvoidingView behavior={"padding"} style={{...styles.container,...style}}>
                 <View style={{...styles.inputs_container, ...InputsStyle}}>
@@ -58,8 +64,8 @@ const TFForm = props => {
                 </View>
 
             <View style={{...styles.buttons_container,...BtnContainerStyle}}>
-                <TFButton onPress={() => btn1_handler(formState.values)} style={{...styles.button, ...BtnStyle}}>{btn1_title}</TFButton>
-                <TFButton onPress={() => btn2_handler(formState.values)} myType={'second'} style={{...styles.button, ...BtnStyle}}>{btn2_title}</TFButton>
+                <TFButton onPress={() => Handler(btn1_handler)} style={{...styles.button, ...BtnStyle}}>{btn1_title}</TFButton>
+                <TFButton onPress={() => Handler(btn2_handler)} myType={'second'} style={{...styles.button, ...BtnStyle}}>{btn2_title}</TFButton>
             </View>
 
         </KeyboardAvoidingView>

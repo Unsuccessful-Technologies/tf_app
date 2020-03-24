@@ -1,5 +1,12 @@
-import { Users } from "../../utils/testData";
-import {LOGIN_CANCEL, LOGIN_FAIL, LOGIN_START, LOGIN_SUCCESS, PARENT_ADD} from "../actionTypes";
+import {
+    FAIRY_ADD, FAIRY_UPDATE,
+    LOGIN_CANCEL,
+    LOGIN_FAIL,
+    LOGIN_START,
+    LOGIN_SUCCESS,
+    PARENT_ADD,
+    PARENT_UPDATE
+} from "../actionTypes";
 import Logger from "../../utils/Logger";
 
 const initialState = {
@@ -51,15 +58,6 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: null
-            }
-        }
-
-        case PARENT_ADD: {
-            Logger(PARENT_ADD,payload)
-            const newParents = [...state.parents, payload]
-            return {
-                ...state,
-                parents: newParents
             }
         }
 

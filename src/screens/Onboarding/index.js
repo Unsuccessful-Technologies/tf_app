@@ -1,7 +1,9 @@
-import ParentInfo from "./ParentInfo";
+import ArrayDataForm from "./ArrayDataForm";
+import Review from "./Review";
 
 const Onboarding_screens = {
-    ParentInfo
+    ArrayDataForm,
+    Review
 }
 
 export default Onboarding_screens

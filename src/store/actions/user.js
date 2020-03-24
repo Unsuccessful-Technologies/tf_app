@@ -1,6 +1,8 @@
-import {loginFail, loginStart, loginSuccess} from "../actionTypes";
+import {
+    LOGIN_CANCEL, LOGIN_FAIL,
+    LOGIN_START, LOGIN_SUCCESS
+} from "../actionTypes";
 import {Login_URL, NewUser_URL} from "../../utils/API";
-import Logger from "../../utils/Logger";
 
 export const LoginUser = payload => {
     return async dispatch => {
@@ -33,5 +35,31 @@ export const LoginUser = payload => {
         } catch(e) {
             dispatch(loginFail(e))
         }
+    }
+}
+
+export const loginStart = () => {
+    return {
+        type: LOGIN_START
+    }
+}
+
+export const loginSuccess = (payload) => {
+    return {
+        type: LOGIN_SUCCESS,
+        payload
+    }
+}
+
+export const loginFail = (payload) => {
+    return {
+        type: LOGIN_FAIL,
+        payload
+    }
+}
+
+export const loginCancel = () => {
+    return {
+        type: LOGIN_CANCEL
     }
 }
