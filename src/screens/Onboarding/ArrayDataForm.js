@@ -4,6 +4,7 @@ import {Center, Colors} from "../../utils/styles";
 import TFForm from "../../utils/TFForm";
 import { useSelector, useDispatch } from "react-redux";
 import Logger from "../../utils/Logger";
+import {useNavigationState, useIsFocused} from '@react-navigation/native'
 
 
 const DataInit = (data) => {
@@ -23,20 +24,21 @@ const compareObjects = (a, b) => {
 }
 
 const ArrayDataForm = props => {
+    const isFocused = useIsFocused()
     const { navigation, route } = props
     let { index, baseForm, nextScreen, actions, dataSelector, btnTitles } = route.params
     let { add: addAction, update: updateAction } = actions
     const dataArray = useSelector(state => state[dataSelector])
     const dispatch = useDispatch();
     let [isEdit, setIsEdit] = useState(false)
-    let [ParentForm, setParentForm] = useState(baseForm)
+    let [BaseForm, setBaseForm] = useState(baseForm)
     let [Data, setData] = useState(DataInit(baseForm))
     let [SubmitType, setSubmitType] = useState(null)
 
     const handleSubmit = (data) => {
-        Logger('ArrayDataForm.js:handleSubmit', data)
+        Logger('ArrayDataForm.js:handleSubmit', {data,params:route.params})
         const body = {}
-        Object.keys(ParentForm).forEach(key => {
+        Object.keys(BaseForm).forEach(key => {
             body[key] = data[key].value
         })
         if(isEdit){
@@ -61,35 +63,43 @@ const ArrayDataForm = props => {
     useEffect(() => {
         if(dataArray[index]) {
             if (!compareObjects(dataArray[index], Data)) {
+                Logger('Effect:DifferentFromState',dataArray[index])
                 /** If there is an index that already exists the edit is true **/
                 let newForm = {}
                 let newData = {}
-                Object.keys(ParentForm).forEach(key => {
-                    newForm[key] = {...ParentForm[key]}
+                Object.keys(BaseForm).forEach(key => {
+                    newForm[key] = {...BaseForm[key]}
                     newForm[key].value = dataArray[index][key]
                     newData[key] = dataArray[index][key]
                 })
-                setParentForm(newForm)
+                setBaseForm(newForm)
                 setData(newData)
                 setIsEdit(true)
             } else {
                 Logger('Effect', {params:route.params, SubmitType})
                 const routeParams = {...route.params}
+                delete routeParams.forwardKey
+                routeParams.lastKey = route.key
                 if(SubmitType === "ADD"){
+                    if(route.params.forwardKey) navigation.navigate({key: route.params.forwardKey})
                     routeParams.index = routeParams.index + 1
                     navigation.push(route.name, routeParams)
                 } else if(SubmitType === "COMPLETE") {
-                    navigation.push(nextScreen)
+                    navigation.push(nextScreen, {lastKey: route.key})
                 }
             }
         }
     }, [dataArray, index, Data])
 
+    // useEffect(() => {
+    //     Logger('Params', route.params)
+    // },[isFocused])
+
     return (
         <View style={styles.screen}>
             <View style={styles.section_container}>
                 <TFForm
-                    inputs={ParentForm}
+                    inputs={BaseForm}
                     style={{backgroundColor:Colors.background}}
                     InputsStyle={{justifyContent: "flex-start", paddingTop: 20}}
                     TitleStyle={{textTransform: "uppercase"}}

@@ -14,9 +14,7 @@ const initialState = {
     error: null,
     token: null,
     userId: null,
-    isNewUser: null,
-    parents: [],
-    fairies: []
+    isNewUser: null
 }
 
 const userReducer = (state = initialState, action) => {

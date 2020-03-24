@@ -5,6 +5,8 @@ import ParentForm from "../forms/ParentForm";
 import GuardianForm from "../forms/GuardianForm";
 import {addGuardian, updateGuardian} from "../store/actions/guardians";
 import {addParent, updateParent} from "../store/actions/parents";
+import {HeaderButtons, Item} from "react-navigation-header-buttons";
+import CustomHeaderButton from "../utils/HeaderButton";
 
 export const OnBoarding_Headers = {
     Parent: "Parent Information",
@@ -17,7 +19,21 @@ const ScreenNames = {
     Review: "Review"
 }
 
-const options = ({route}) => ({title: route.params.title})
+const options = ({navigation, route}) => ({
+    title: route.params.title,
+    headerLeft: () => {
+        if(!navigation.canGoBack()) return null
+        return (<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+            <Item
+                title={"Back"}
+                iconName={"ios-arrow-back"}
+                onPress={() => {
+                    navigation.navigate({key: route.params.lastKey, params: {forwardKey: route.key}})
+                }}
+            />
+        </HeaderButtons>)
+    }
+})
 
 const ParentParams = {
     title: OnBoarding_Headers.Parent,

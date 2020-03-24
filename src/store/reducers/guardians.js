@@ -6,7 +6,7 @@ const initialState = []
 
 const GuardiansReducer = (state = initialState, action) => {
     const { type, payload } = action
-    Logger('UserState', state)
+    Logger('GuardiansState', state)
     switch(type) {
 
         case GUARDIAN_ADD: {
