@@ -1,4 +1,4 @@
-import {GUARDIAN_ADD} from "../actionTypes";
+import {GUARDIAN_ADD, GUARDIAN_UPDATE} from "../actionTypes";
 
 export const addGuardian = payload => {
     return {
@@ -9,7 +9,7 @@ export const addGuardian = payload => {
 
 export const updateGuardian = payload => {
     return {
-        type: GUARDIAN_ADD,
+        type: GUARDIAN_UPDATE,
         payload
     }
 }

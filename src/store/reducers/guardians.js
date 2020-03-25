@@ -2,7 +2,19 @@
 import Logger from "../../utils/Logger";
 import {GUARDIAN_ADD, GUARDIAN_UPDATE} from "../actionTypes";
 
-const initialState = []
+const initialState = {
+    form: {
+        "email": {
+            title: "Email",
+            value: ''
+        }
+    },
+    entries: [],
+    actions: {
+        add: GUARDIAN_ADD,
+        update: GUARDIAN_UPDATE
+    }
+}
 
 const GuardiansReducer = (state = initialState, action) => {
     const { type, payload } = action
@@ -10,18 +22,27 @@ const GuardiansReducer = (state = initialState, action) => {
     switch(type) {
 
         case GUARDIAN_ADD: {
-            let { index, data } = payload
-            Logger(GUARDIAN_ADD, data)
-            const newState = [...state, data]
-            return newState
+            let { body } = payload
+            Logger(GUARDIAN_ADD, body)
+            const newEntries = [...state.entries, body]
+            return {
+                ...state,
+                entries: newEntries
+            }
         }
 
         case GUARDIAN_UPDATE: {
-            let { index, data } = payload
-            Logger(GUARDIAN_UPDATE, data)
-            const newState = [...state]
-            newState[index] = data
-            return newState
+            let { index, body, isComplete } = payload
+            Logger(GUARDIAN_UPDATE, body)
+            let newEntries = [...state.entries]
+            newEntries[index] = body
+            if(isComplete){
+                newEntries = newEntries.slice(0, index + 1)
+            }
+            return {
+                ...state,
+                entries: newEntries
+            }
         }
 
         default: {

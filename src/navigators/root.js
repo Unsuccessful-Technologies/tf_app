@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Authentication from "./Authentication";
 import Home from "./Home";
 import { useSelector } from "react-redux";
-import Onboarding from "./Onboarding";
+import OnBoarding from "./OnBoarding";
 
 const Root = () => {
     const user = useSelector(state => state.user)
@@ -15,7 +15,7 @@ const Root = () => {
                 token == null ? (
                     <Authentication/>
                 ) : (
-                    (isNewUser == null) ? <Onboarding/> : <Home/>
+                    (isNewUser == null) ? <OnBoarding/> : <Home/>
                 )
             }
         </NavigationContainer>

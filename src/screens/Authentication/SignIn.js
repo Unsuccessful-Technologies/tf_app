@@ -33,8 +33,6 @@ const SignIn = props => {
         navigation.navigate('AuthRoot')
     }
 
-    console.log(UserState)
-
     if(UserState.loading) return <Loading/>
 
     return (

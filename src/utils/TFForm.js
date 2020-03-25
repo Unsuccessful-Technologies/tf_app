@@ -1,23 +1,30 @@
-import React, { useReducer }from 'react';
+import React, { useReducer, useEffect }from 'react';
 import {View, TextInput, StyleSheet, Text, KeyboardAvoidingView, ScrollView} from "react-native";
 import {Center} from "./styles";
 import TFButton from "./TFButton";
 import Logger from "./Logger";
 
 const formReducer = (state, action) => {
-    const { key, value } = action
-    const newValues = {...state.values}
-    const newState = {...state}
-    newValues[key].value = value
-    newState.values = newValues
-    return newState
+    const { type, payload } = action
+
+    switch(type){
+        case "SET": {
+            const {inputs} = payload
+            return setForm(inputs)
+        }
+
+        case "UPDATE": {
+            const { key, value } = payload
+            const newValues = {...state.values}
+            const newState = {...state}
+            newValues[key].value = value
+            newState.values = newValues
+            return newState
+        }
+    }
 }
 
-const TFForm = props => {
-    const { btn1, btn2, inputs, style, InputsStyle, InputStyle, TitleStyle, TextStyle, BtnContainerStyle, BtnStyle } = props
-    const { handler: btn1_handler, title: btn1_title } = btn1
-    const { handler: btn2_handler, title: btn2_title } = btn2
-
+const setForm = (inputs) => {
     const values = {}
     const validities = {}
 
@@ -26,22 +33,32 @@ const TFForm = props => {
         validities[input[0]] = (input[1].validation) ? input[1].validation : null
     })
 
-    const initialForm = {
+    return {
         values,
         validities,
         formIsValid: false
     }
+}
 
-    const [formState, dispatch] = useReducer(formReducer, initialForm)
+const TFForm = props => {
+    const { btn1, btn2, inputs, style, InputsStyle, InputStyle, TitleStyle, TextStyle, BtnContainerStyle, BtnStyle } = props
+    const { handler: btn1_handler, title: btn1_title } = btn1
+    const { handler: btn2_handler, title: btn2_title } = btn2
+    const [formState, dispatch] = useReducer(formReducer, setForm(inputs))
 
     const changeHandler = (key, value) => {
-        dispatch({key, value})
+        dispatch({type:"UPDATE",payload:{key, value}})
     }
 
     const Handler = (HandleFunction) => {
         Logger('TFForm.js:Handler', formState.values)
         HandleFunction(formState.values)
     }
+
+    useEffect(() => {
+        Logger("TFForm Effect", [inputs])
+        dispatch({type:"SET",payload:{inputs}})
+    }, [inputs])
 
     return (
         <KeyboardAvoidingView behavior={"padding"} style={{...styles.container,...style}}>
